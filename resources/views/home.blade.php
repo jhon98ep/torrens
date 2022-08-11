@@ -150,7 +150,7 @@
       </li>
     </ul>
   </div>
-<div class="container" style="position: absolute; white-space: break-spaces; margin-left: 21%; margin-top: 5%;">
+<div class="container" style="position: absolute; white-space: pre-line; margin-left: 21%; margin-top: 5%; width: 79%; height: -webkit-fill-available;">
     @yield('content-inicio')
 </div>
 @endsection
