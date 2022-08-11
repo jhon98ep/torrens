@@ -18,9 +18,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/usuarios', [App\Http\Controllers\UsersController::class, 'index'])->name('usuarios');
+
+Route::get('/tareas', [App\Http\Controllers\TaskController::class, 'index'])->name('tareas');
+
 
 Route::get('/inicio', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/inicio', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
