@@ -29,9 +29,10 @@ class UsersController extends Controller
         $rol = auth()->user()->rol;
         $numero_tareas = Tareas::where('user_id', $id_usuario)->count();
         if($rol == 1){
-            $usuarios = User::orderBy('id','ASC')->get();
-            asort($usuarios);
-            return view('usuarios',['usuarios' => $usuarios, 'numero_tareas' => $numero_tareas]);
+            $usuariosJSON = User::orderBy('id','ASC')->get()->toJson();
+            $usuarios = json_decode($usuariosJSON, true);
+            $array = collect($usuarios)->sortBy('name')->toArray();
+            return view('usuarios',['usuarios' => $array, 'numero_tareas' => $numero_tareas]);
         }else{
             return redirect()->route('home');
         }

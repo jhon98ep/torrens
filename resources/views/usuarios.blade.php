@@ -15,13 +15,13 @@
     <tbody>
         @foreach ($usuarios as $item)
             <tr>
-                <th scope="row">{{ $item->id}}</th>
-                <td>{{ $item->name}} {{ $item->fullname}}</td>
-                <td>{{ $item->phone}}</td>
-                <td>{{ $item->email}}</td>
-                @if ($item->state == 0)
+                <th scope="row">{{ $item['id'] }}</th>
+                <td>{{ $item['name'] }} {{ $item['fullname'] }}</td>
+                <td>{{ $item['phone'] }}</td>
+                <td>{{ $item['email'] }}</td>
+                @if ($item['state'] == 0)
                 <td>false</td>
-                @elseif ($item->state == 1)
+                @elseif ($item['state'] == 1)
                 <td>true</td>
                 @endif
             </tr>
