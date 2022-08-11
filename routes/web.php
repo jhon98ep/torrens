@@ -21,7 +21,11 @@ Auth::routes();
 Route::get('/usuarios', [App\Http\Controllers\UsersController::class, 'index'])->name('usuarios');
 
 Route::get('/tareas', [App\Http\Controllers\TaskController::class, 'index'])->name('tareas');
-
+Route::get('/tareas/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tareas.create');
+Route::post('/tareas', [App\Http\Controllers\TaskController::class, 'store'])->name('tareas.store');
+Route::get('/tareas/{id}/edit', [App\Http\Controllers\TaskController::class, 'edit'])->name('tareas.edit');
+Route::post('/tareas/{id}', [App\Http\Controllers\TaskController::class, 'update'])->name('tareas.update');
+Route::get('/tareas/{id}/delete', [App\Http\Controllers\TaskController::class, 'destroy'])->name('tareas.destroy');
 
 Route::get('/inicio', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

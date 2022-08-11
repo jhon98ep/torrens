@@ -50,8 +50,20 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                                <button type="button" class="btn btn-primary">
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    Tareas <span class="badge text-bg-secondary">{{$numero_tareas}}</span>
+                                </button>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->name }} -  
+                                    @if(Auth::user()->rol == 1)                            
+                                        <span>Administrador</span>
+                                    @else
+                                        <span>Usuario</span>
+                                    @endif
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tareas;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $id_usuario = auth()->user()->id;
+        $numero_tareas = Tareas::where('user_id', $id_usuario)->count();       
+        return view('home', ['numero_tareas' => $numero_tareas]);
     }
 }

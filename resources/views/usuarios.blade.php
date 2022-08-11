@@ -13,13 +13,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        </tr>
+        @foreach ($usuarios as $item)
+            <tr>
+                <th scope="row">{{ $item->id}}</th>
+                <td>{{ $item->name}} {{ $item->fullname}}</td>
+                <td>{{ $item->phone}}</td>
+                <td>{{ $item->email}}</td>
+                @if ($item->state == 0)
+                <td>false</td>
+                @elseif ($item->state == 1)
+                <td>true</td>
+                @endif
+            </tr>
+        @endforeach
     </tbody>
     </table>
 @endsection

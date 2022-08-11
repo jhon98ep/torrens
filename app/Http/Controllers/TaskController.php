@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tareas;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -20,17 +21,17 @@ class TaskController extends Controller
      */
     public function index()
     {
+        $id_usuario = auth()->user()->id;
         $rol = auth()->user()->rol;
+        $numero_tareas = Tareas::where('user_id', $id_usuario)->count();
         if($rol == 1){
-            $tareas = Tareas::all();
-            return view('task',compact('tareas'));
+            /* $tareas = Tareas::all(); */
+                $tareas = Tareas::join("users", "users.id", "=", "tareas.user_id")->select("tareas.name","tareas.id","tareas.description","users.name AS nameUs")->get();
+                return view('task',['tareas' => $tareas, 'numero_tareas' => $numero_tareas]);
         }else{
-            $id_usuario = auth()->user()->id;
             $tareas = Tareas::where('user_id', $id_usuario)->paginate(8);
-            return view('task',compact('tareas'));
+            return view('task',['tareas' => $tareas, 'numero_tareas' => $numero_tareas]);
         }
-
-        
     }
 
     /**
@@ -40,7 +41,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $id_usuario = auth()->user()->id;
+        $numero_tareas = Tareas::where('user_id', $id_usuario)->count();
+        $usuarios = User::all();
+        return view('taskCreate',['usuarios' => $usuarios, 'numero_tareas' => $numero_tareas]);
     }
 
     /**
@@ -50,8 +54,13 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {     
+        $tarea = new Tareas();
+        $tarea->name = $request->name;
+        $tarea->description = $request->description;
+        $tarea->user_id = $request->asignado;
+        $tarea->save();
+        return back()->with('mensaje', 'tarea Agregada!');
     }
 
     /**
@@ -73,7 +82,11 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id_usuario = auth()->user()->id;
+        $rol = auth()->user()->rol;
+        $numero_tareas = Tareas::where('user_id', $id_usuario)->count();
+        $tarea = Tareas::where('id', $id)->first();
+        return view('taskEdit',['tarea' => $tarea, 'numero_tareas' => $numero_tareas, 'id' => $id]);
     }
 
     /**
@@ -85,7 +98,8 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Tareas::where('id',$id)->update(['name'=> $request->name, 'description'=> $request->description]);
+        return redirect()->route('tareas');
     }
 
     /**
@@ -96,6 +110,7 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Tareas::where('id',$id)->delete();
+        return redirect()->route('tareas');
     }
 }
